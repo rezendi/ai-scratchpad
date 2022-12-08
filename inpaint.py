@@ -14,8 +14,6 @@ if len(sys.argv) < 4:
 image_file = sys.argv[1]
 mask_prompts = sys.argv[2].split(",")
 prompt = sys.argv[3]
-filename = sys.argv[2] if len(sys.argv) >2 else prompt.replace(" ","_")
-filename = filename + "-" + str(int(time.time())) + ".png"
 output_file = sys.argv[4] if len(sys.argv) >4 else "%s_inpainted" % image_file
 steps = int(sys.argv[5]) if len(sys.argv) > 5 else 10
 
@@ -29,7 +27,7 @@ model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined"
 original = Image.open(image_file)
 while original.width > 1024:
   original = original.resize((original.width // 2, original.height // 2))
-print("Immage dimensions %d x %d" % (original.width, original.height))
+print("Image dimensions %d x %d" % (original.width, original.height))
 
 # Get rid of alpha channel, repurposed from https://stackoverflow.com/a/35859141
 if original.mode in ('RGBA', 'LA') or (original.mode == 'P' and 'transparency' in original.info):
